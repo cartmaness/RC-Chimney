@@ -1,4 +1,6 @@
 # 🌐 Hybrid Transformer-Based Framework for Seismic Response Prediction of RC Chimneys
+> [!IMPORTANT]
+> **Status: 🚧 Building in Progress** > This repository is currently undergoing active development. Code, documentation, and pre-trained weights are being updated frequently.
 
 [![Paper](https://img.shields.io/badge/Paper-View_on_Journal-blue)](INSERT_LINK_HERE)
 [![Framework](https://img.shields.io/badge/Framework-PyTorch-orange)](https://pytorch.org/)
@@ -26,8 +28,37 @@ The `Chimney_Transformer` architecture is engineered for long-sequence seismic d
 * **Multi-Task Heads:** Specialized output heads for Acceleration and Displacement, utilizing unique `task_embeddings` and `height_embeddings`.
 * **RMSNorm & GELU:** Employs Root Mean Square Layer Normalization and GELU activations for stable, high-performance training.
 
+---
 
+## 🚀 Usage Example: Inference
 
+You can use the model to predict the structural response by passing chimney geometry, modal frequencies, and the ground motion acceleration (GMA) record.
+
+```python
+import torch
+from model import Chimney_Transformer
+
+# 1. Initialize the model
+model = Chimney_Transformer(
+    parameters_features=10, 
+    freq_features=5, 
+    response_features=11, 
+    sequence_length=4000,
+    compression_ratio=8
+).to("cuda")
+
+# 2. Prepare inputs (Example shapes)
+params = torch.randn(1, 10).to("cuda")   # Geometry parameters
+freqs = torch.randn(1, 5).to("cuda")     # Modal frequencies
+gma = torch.randn(1, 4000).to("cuda")    # Ground motion record
+
+# 3. Predict both Displacement and Acceleration
+model.eval()
+with torch.no_grad():
+    acc_out, disp_out = model(params, freqs, gma, return_both=True)
+
+print(f"Acceleration Prediction Shape: {acc_out.shape}") # [Batch, Time, Heights]
+```
 ---
 
 ## 🚀 Getting Started
@@ -36,9 +67,3 @@ The `Chimney_Transformer` architecture is engineered for long-sequence seismic d
 * Python 3.8+
 * PyTorch 2.0+
 * `torchinfo`, `tqdm`, `numpy`, `matplotlib`
-
-### Installation
-```bash
-git clone [https://github.com/YourUsername/Seismic-Chimney-Transformer.git](https://github.com/YourUsername/Seismic-Chimney-Transformer.git)
-cd Seismic-Chimney-Transformer
-pip install -r requirements.txt
