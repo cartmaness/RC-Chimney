@@ -31,6 +31,13 @@ This framework introduces a hybrid Transformer-based model that delivers high-fi
 | **Transfer Learning** | Knowledge distillation from displacement to acceleration tasks. |
 | **Computational Efficiency** | Optimized attention mechanisms for rapid inference. |
 
+## 🏗️ Model Architecture
+The `Chimney_Transformer` architecture is engineered for long-sequence seismic data:
+
+* **Adaptive Sequence Compression:** Uses `AdaptiveAvgPool1d` and `Conv1d` to compress sequences (default ratio 8:1), enabling the Transformer to process long-duration records efficiently.
+* **Rotary Positional Embeddings (RoPE):** Integrated via `precompute_rotary_embeddings` to provide relative temporal awareness.
+* **Multi-Task Heads:** Specialized output heads for Acceleration and Displacement, utilizing unique `task_embeddings` and `height_embeddings`.
+* **RMSNorm & GELU:** Employs Root Mean Square Layer Normalization and GELU activations for stable, high-performance training.
 ---
 
 ## 🚀 Getting Started
