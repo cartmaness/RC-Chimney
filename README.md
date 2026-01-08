@@ -4,7 +4,6 @@
 
 [![Paper](https://img.shields.io/badge/Paper-View_on_Journal-blue)](INSERT_LINK_HERE)
 [![Framework](https://img.shields.io/badge/Framework-PyTorch-orange)](https://pytorch.org/)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 Official implementation of the **Chimney Transformer**, a deep learning framework for rapid seismic response prediction of reinforced concrete chimneys. This model achieves high-fidelity results with a **3,000–18,000× speedup** over traditional OpenSees Nonlinear Time-History Analysis (NLTHA).
 
