@@ -39,17 +39,16 @@ from model import Chimney_Transformer
 
 # 1. Initialize the model
 model = Chimney_Transformer(
-    parameters_features=10, 
+    parameters_features=14, 
     freq_features=5, 
-    response_features=11, 
-    sequence_length=4000,
-    compression_ratio=8
+    response_features=5, 
+    sequence_length=4500
 ).to("cuda")
 
 # 2. Prepare inputs (Example shapes)
-params = torch.randn(1, 15).to("cuda")   # Geometry parameters
+params = torch.randn(1, 14).to("cuda")   # Geometry parameters
 freqs = torch.randn(1, 5).to("cuda")     # Modal frequencies
-gma = torch.randn(1, 5000).to("cuda")    # Ground motion record
+gma = torch.randn(1, 4500).to("cuda")    # Ground motion record
 
 # 3. Predict both Displacement and Acceleration
 model.eval()
