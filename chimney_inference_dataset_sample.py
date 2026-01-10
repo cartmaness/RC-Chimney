@@ -15,19 +15,21 @@ from utils.evaluation_criteria import *
 import chimney_transformer
 
 # Create module alias so the checkpoint can find the old module name
-sys.modules['Chimeny_GPT'] = chimney_transformer
+# sys.modules['Chimeny_GPT'] = chimney_transformer
 
 # --- Configuration ---
 DATA_FOLDER = 'Chimney_Data/ProcessedData_Reduced/'
 RESPONSE_TYPE = "acceleration"  # or "displacement" or "both"
+TORCHSCRIPT_MODEL = f"deploy/chimney_{RESPONSE_TYPE}.pt"
+
 PARAMETERS_FEATURES = 14        # Number of structural parameters per chimney
 RESPONSE_FEATURES = 5           # Predict response at 5 height levels
 NUM_FREQUENCIES = 5             # Natural frequencies
 SEQUENCE_LENGTH = 4500          # Length of ground motion time series Dataset has maximum of 4500
 # BATCH_SIZE = 1                # Loading only one sample for inference
-SCALER_FOLDER = Path(DATA_FOLDER) / "Scaler"
 
 # Paths to the saved scalers (used during training to normalize data)
+SCALER_FOLDER = Path(DATA_FOLDER) / "Scaler"
 CHIMNEY_SCALER_FILE = SCALER_FOLDER / "param_scaler.joblib"
 FREQ_SCALER_FILE = SCALER_FOLDER / "freq_scaler.joblib"
 MOTION_SCALER_FILE = SCALER_FOLDER / "motion_scaler.joblib"
@@ -53,8 +55,12 @@ def dataset_sample_inference(sample_idx=0, target_key='displacement'):
         raise ValueError(f"Invalid target_key: {target_key}")
 
     print(f"Loading model from: {model_path}")
-    model = torch.load(model_path, map_location=device, weights_only=False)
-    model.eval() # Set to evaluation mode (no dropout, batch norm frozen, etc.)
+    # model = torch.load(model_path, map_location=device, weights_only=False)
+    # model.eval() # Set to evaluation mode (no dropout, batch norm frozen, etc.)
+
+    print(f"Loading TorchScript model from: {TORCHSCRIPT_MODEL}")
+    model = torch.jit.load(TORCHSCRIPT_MODEL)
+
 
     # --- Load the full test dataset and pick one random sample ---
     print(f"\nLoading all processed data from {DATA_FOLDER}...")
