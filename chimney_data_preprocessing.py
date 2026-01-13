@@ -362,7 +362,7 @@ def collate_fn_general(batch):
 
     return batch_dict
 
-'''
+
 # For Frequency Model # For Simple Model ============================================================
 class ChimneyStaticDataset(Dataset):
     def __init__(self, chimney_params, frequencies):
@@ -439,5 +439,3 @@ def collate_fn(batch):
         'sequence_index': sequence_index,
         'start_index': start_index
     }
-
-'''
